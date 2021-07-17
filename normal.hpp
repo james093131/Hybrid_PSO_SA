@@ -26,7 +26,7 @@ class PSO_SA : CEC17{
             srand((unsigned)time(NULL));
             double START,END;
             START = clock();
-            int r =0;
+            int r = 0;
             INI_RUN(run);
             while(r <run )
             {
@@ -76,9 +76,7 @@ class PSO_SA : CEC17{
         {
             d2d Particle;
             d1d Objective;
-            d2d Velocity;
-             
-            
+            d2d Velocity;  
         };
         struct Current_best
         {
@@ -206,7 +204,7 @@ class PSO_SA : CEC17{
         {
             pso_set.W = pso_set.W_max -  ( (pso_set.W_max - pso_set.W_min)/MAX_NFE ) *NFE;
         }
-         void Evaluation(int pop,int DIM,int F,int F_T)
+        void Evaluation(int pop,int DIM,int F,int F_T)
         {
             for(int i=0;i<pop;i++)
             {   
@@ -215,12 +213,12 @@ class PSO_SA : CEC17{
                 CEC17::cec17_cal(&PSO_inf.Particle[i][0],&PSO_inf.Objective[i], DIM,F);
                 NFE++;
 
-                if(PSO_inf.Objective[i] < Personal_inf.Personal_Best_Value[i])
+                if(PSO_inf.Objective[i] <= Personal_inf.Personal_Best_Value[i])
                 {
                     Personal_inf.Personal_Best_Value[i] = PSO_inf.Objective[i];
                     Personal_inf.Personal_Best_Coordinate[i].assign(PSO_inf.Particle[i].begin(),PSO_inf.Particle[i].end());
 
-                    if(PSO_inf.Objective[i] < Current_inf.Current_Best_Value)
+                    if(PSO_inf.Objective[i] <= Current_inf.Current_Best_Value)
                     {
                         Current_inf.Current_Best_Value = PSO_inf.Objective[i];
                         Current_inf.Current_Best_Coordinate.assign(PSO_inf.Particle[i].begin(),PSO_inf.Particle[i].end());
@@ -265,7 +263,7 @@ class PSO_SA : CEC17{
             }
             else
             {
-                double Accept_P = exp(-(Trial_obj - Current_inf.Current_Best_Value)/sa_set.Temp);
+                double Accept_P = exp( -(Trial_obj - Current_inf.Current_Best_Value)/sa_set.Temp);
                 double Ran_P =  randomDouble();
                 if( Accept_P >= Ran_P)
                 {
@@ -275,8 +273,6 @@ class PSO_SA : CEC17{
                     sa_set.movesAccepted ++;
                     SA_part(DIM,F,F_T);
                 }
-               
-
             }
 
         }
@@ -294,9 +290,9 @@ class PSO_SA : CEC17{
             {
                 V_step = 1+2*(0.4 - phi)/0.4;
             }
-            // else{
-            //     V_step = 1;
-            // }
+            else{
+                V_step = 1;
+            }
             return V_step;
         }
         void OUTPUT(int DIM,int Function,int F_T,int MAX_NFE,int run,double START,double END)
